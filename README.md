@@ -14,3 +14,4 @@ Data visualisation approaches that are publishable
 
 
 ## Clustered box plot
+![Clustered](https://github.com/beckydean/Graphing/blob/master/clustered_boxplot.png "Clustered"

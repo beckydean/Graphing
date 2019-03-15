@@ -1,6 +1,7 @@
 #####################################################
 # Order the x axis of a graph according to ascending median values
-# Figure 1, Dean et al 2018 Evolution
+#####################################################
+# e.g. Figure 1, Dean et al 2018 Evolution
 #####################################################
 # Dummy data
 values <- rnorm(1000, 0, 1)
@@ -25,20 +26,21 @@ mtext(side=3, line=1, adj=0, 'A')
 
 #####################################################
 # Binning an average value for each x axis incrememnt
-# Figure 3, 5 & 6 Dean et al 2018 Evolution
-# Figure 1 & 2 Dean & Mank 2016 American Naturalist
 #####################################################
+# e.g Figure 3, 5 & 6 Dean et al 2018 Evolution
+# And Figure 1 & 2 Dean & Mank 2016 American Naturalist
+#####################################################
+# Make dummy data
 xval <- rnorm(1000, 0, 1)
 yval <- rnorm(1000, 5, 10)
 d <- data.frame(xval, yval)
 
 minValue <- -2 #set the range of data along the x-axis
 maxValue <- 2
-step <- 0.2 #set the size of the bins - big number = fewer smaller bins
+step <- 0.2 #set the size of the bins - big number = fewer, smaller bins
 
-###############################
+#################
 # the function binit gets mean value for each x-axis incremental increase
-###############################
 binit <- function(values, factors, minValue, maxValue, step) {
   breaks <- seq(minValue, maxValue - step, step)
   histcat <- as.factor(sapply(factors, function(x) { sum(x > breaks) }))
@@ -57,14 +59,15 @@ binit <- function(values, factors, minValue, maxValue, step) {
   finaldf <- merge(newdf, Response.df, by = "binID", all.x = TRUE)
   finaldf
 }
-###############################
+#################
+
 # run binit to get a dataframe of the binned values
 df <- binit(d$yval, d$xval, minValue, maxValue, step)
 
 # plot it
 par(xpd=FALSE) # this means things can NOT be drawn outside the plotting region
 plot(ResponseMean ~ midpoints, data = df, pch=21, 
-     bg=rgb(0.1, 0.1, 0.1, 0.3), #red, green, blue, transparency
+     bg=rgb(0.1, 0.1, 0.1, 0.3), #red, green, blue, transparency/alpha
      col='black', xlab="", ylab="", 
      cex=log10(df$N), # size of datapoint based upon amount of data in each bin
      mgp=c(1,0.5,0), # (dist between axes titles and axes, dist between axis labels and axes,location of axes) default is c(3,1,0) although 
@@ -85,8 +88,9 @@ model <- lm(ResponseMean ~ midpoints , data=df, weights = freq, na.action = na.e
 lines(seq(minValue, maxValue, step), predict(model, newdata = data.frame(midpoints=seq(minValue, maxValue, step))), lty=2, col="tomato3", lwd=3)
 
 #####################################################
-# Plotting interaction model fit in ggplots (Bolker way)
-# Figure 4 Dean et al 2018 Evolution
+# Plotting interaction model fit in ggplots (this approach was suggested by Ben Bolker on stackoverflow)
+#####################################################
+# e.g. Figure 4 Dean et al 2018 Evolution
 #####################################################
 library(effects)
 library(lme4)
@@ -136,8 +140,10 @@ dev.new()
 p
 #####################################################
 # Multi-panel figures with labelling
-# Figure 3 & 4 Dean & Mank 2016 American Naturalist
 #####################################################
+# e.g. Figure 3 & 4 Dean & Mank 2016 American Naturalist
+#####################################################
+# Dummy data
 xval <- rnorm(500, 6, 12)
 yval <- rnorm(500, 5, 10)
 d <- data.frame(xval, yval)
@@ -251,8 +257,10 @@ mtext("Yokahama", side=4, line=0.6, cex=speciesLabelSize)
 
 #####################################################
 # Heat map
-# Figure 2 Dean et al 2017 Molecular Ecology
 #####################################################
+# e.g. Figure 2 Dean et al 2017 Molecular Ecology
+#####################################################
+# dumy data
 w1 <- rnorm(100, 0, 1)
 w2 <- rnorm(100, 1, 1)
 w3 <- rnorm(100, 2, 1)
@@ -269,7 +277,7 @@ library(pheatmap) # heatmap
 # produce a tree
 results <- pvclust(wrassedata, method.hclust = 'complete', method.dist = 'euclidean', nboot = 1000) # method.hclust = 'average',
 plot(results)
-pvrect(results, alpha=0.95) # which brances collapse
+pvrect(results, alpha=0.95) # which branches collapse
 
 # determine the colour for the heatmap
 my_palette <- colorRampPalette(c("black", "grey30", "grey40", 'grey60', "white", 'yellow', "gold", 'gold2', "goldenrod1"))(n=100)
@@ -277,7 +285,8 @@ my_palette <- colorRampPalette(c("black", "grey30", "grey40", 'grey60', "white",
 pheatmap(wrassedata, cluster_row=T, cluster_cols=T, show_rownames=F, show_colnames=T, clustering_method='average', color=my_palette, fontsize=13, legend=F, border_color=NA)
 #####################################################
 # Clustered box plot
-# Figure 4-6 Dean et al 2017 Molecular Ecology
+#####################################################
+# e.g. Figure 4-6 Dean et al 2017 Molecular Ecology
 #####################################################
 boxplot(value ~ Morph + each_quartile, data = data, 
         outline=F, notch=T, # notched with no outliers shown
@@ -295,7 +304,8 @@ text(3, 0.19, "***", cex=0.7)
 lines(c(2,4), c(0.18,0.18))
 #####################################################
 # Polygons as confidence intervals
-# Figure 1 Dean et al 2015 Molecular Biology & Evolution
+#####################################################
+# e.g. Figure 1 Dean et al 2015 Molecular Biology & Evolution
 #####################################################
 library(scales)
 MGAFG <- c(0.0223, 0.8350, 0.7900)
@@ -330,6 +340,7 @@ axis(side = 2, at = c(0.5, 0.6,0.7, 0.8), tck = -0.02, las=1, cex.axis = 1.5, ha
 
 #####################################################
 # Violin plot with a jitter to show all the datapoints
+#####################################################
 # Figure 2 Dean & Pizzari in prep
 #####################################################
 library(ggplot2)
